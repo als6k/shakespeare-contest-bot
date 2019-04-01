@@ -1,0 +1,28 @@
+<div style="font-family: Courier New, Courier, Lucida Sans Typewriter">
+  <% @logs.each do |log| %>
+  <p style="margin:0;padding:2px;font-size: 14px">
+    <% if log.answer.nil? -%>
+      &#x2B55;
+    <% elsif log.server_response == 'Correct' -%>
+      &#x2705;
+    <% elsif log.server_response == 'Wrong' -%>
+      &#x1F534;
+    <% else -%>
+      &#x26AA;
+    <% end %>
+
+    <%= log.created_at.to_s(:db) %>
+    [<%= log.level -%>]
+    <%= log.task_id -%>,
+    &quot;<%= log.question.gsub("\n", '|') -%>&quot;
+
+    <% if log.answer.present? -%>
+      &rarr;
+      &quot;<%= log.answer -%>&quot;
+      (<%= log.search_time -%>)
+    <% end %>
+  </p>
+  <% end %>
+</div>
+<hr/>
+<%== pagy_nav(@pagy) %>
